@@ -45,6 +45,8 @@ begin
     execute format('alter table public.%I enable row level security', t);
     execute format('drop policy if exists own_rows on public.%I', t);
     execute format('create policy own_rows on public.%I for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid())', t);
+    -- 로그인한 사용자에게 표 사용 권한을 줍니다 (위 규칙 때문에 본인 기록만 보입니다)
+    execute format('grant select, insert, update, delete on public.%I to authenticated', t);
   end loop;
 end $$;
 
@@ -54,3 +56,7 @@ drop policy if exists photos_own on storage.objects;
 create policy photos_own on storage.objects for all to authenticated
   using (bucket_id = 'photos' and (storage.foldername(name))[1] = auth.uid()::text)
   with check (bucket_id = 'photos' and (storage.foldername(name))[1] = auth.uid()::text);
+
+-- 매일 자동 접속(일시 정지 방지)이 성공하도록 설정 표의 읽기 권한만 열어 둡니다.
+-- 로그인하지 않으면 위 규칙 때문에 기록은 한 줄도 보이지 않습니다.
+grant select on public.settings to anon;
