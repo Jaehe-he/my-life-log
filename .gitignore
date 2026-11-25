@@ -1,0 +1,10 @@
+node_modules
+dist
+dev-dist
+.env
+.env.local
+*.log
+
+# 브라우저에서 저장한 구성도 사본 (올리지 않음)
+마이라이프 구성도.html
+마이라이프 구성도_files/

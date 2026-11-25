@@ -1,0 +1,183 @@
+<title>마이라이프 구성도</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: single reading column, summary strip first, then system diagram, screens, limits, build order */
+:root {
+  --bg: #f4f6f9; --surface: #ffffff; --fg: #16202e; --muted: #5a6779;
+  --line: #d8dee8; --accent: #0b63c4; --accent-soft: #e3eefb; --warn: #a15c00;
+  --font: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f141b; --surface: #171e28; --fg: #e6ebf2; --muted: #96a3b5;
+  --line: #2b3544; --accent: #62adf7; --accent-soft: #16304d; --warn: #f0b354; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #171e28; --fg: #e6ebf2; --muted: #96a3b5;
+  --line: #2b3544; --accent: #62adf7; --accent-soft: #16304d; --warn: #f0b354; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.65;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 56px; }
+main { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+h1 { font-size: 28px; line-height: 1.25; margin: 0 0 8px; text-wrap: balance; }
+h2 { font-size: 19px; margin: 0 0 6px; }
+p { margin: 0; }
+.lead { color: var(--muted); max-width: 62ch; }
+section { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; border-block: 1px solid var(--line); }
+.facts div { padding: 14px 16px 14px 0; }
+.facts b { display: block; font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.facts span { color: var(--muted); font-size: 13px; }
+.scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+figure { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+figure svg { display: block; min-width: 760px; width: 100%; height: auto; color: var(--fg); padding: 12px; box-sizing: border-box; }
+figcaption, .note { color: var(--muted); font-size: 13px; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 12px; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+.warn { color: var(--warn); }
+ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
+ol b { font-weight: 600; }
+ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+</style>
+
+<main>
+  <header>
+    <h1>마이라이프 구성도</h1>
+    <p class="lead">경제, 독서, 공부, 취미, 일기, 건강, 계획을 한 앱에서 기록하는 개인용 웹앱입니다. 지금까지 고르신 내용을 그대로 정리했습니다. 이 구성이 맞으면 이대로 구현을 시작합니다.</p>
+  </header>
+
+  <div class="facts">
+    <div><b>0원</b><span>월 사용료</span></div>
+    <div><b>8개</b><span>메뉴</span></div>
+    <div><b>폰 + PC</b><span>같은 데이터, 같은 주소</span></div>
+    <div><b>구글 로그인</b><span>본인만 열람</span></div>
+  </div>
+
+  <section>
+    <h2>시스템 구성</h2>
+    <p class="lead">구글 시트 방식이 느렸던 이유는 버튼을 누를 때마다 시트 전체를 읽고 썼기 때문입니다. 이 구성에서는 화면이 기기 안에서 바로 그려지고, 필요한 기록만 데이터베이스와 주고받습니다.</p>
+    <figure>
+      <div class="scroll">
+        <svg viewBox="0 0 890 310" role="img" aria-label="기기의 웹앱이 GitHub Pages에서 화면을 내려받고, Supabase에 로그인·기록·사진을 저장하며, 구글 캘린더와 도서 검색을 직접 호출한다">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g font-family="inherit" font-size="12" fill="currentColor">
+            <!-- left services -->
+            <g fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="20" y="40" width="180" height="55" rx="4"/>
+              <rect x="20" y="130" width="180" height="55" rx="4"/>
+              <rect x="20" y="220" width="180" height="55" rx="4"/>
+              <rect x="680" y="55" width="180" height="55" rx="4"/>
+              <rect x="680" y="130" width="180" height="55" rx="4"/>
+              <rect x="680" y="205" width="180" height="55" rx="4"/>
+              <rect x="665" y="20" width="210" height="255" rx="6" stroke-dasharray="4 4"/>
+            </g>
+            <rect x="350" y="30" width="180" height="260" rx="6" fill="#0b63c4" fill-opacity=".14" stroke="#3b8ae0" stroke-width="1.6"/>
+            <g text-anchor="middle">
+              <text x="110" y="64" font-weight="600">GitHub Pages</text>
+              <text x="110" y="82" font-size="11">앱 화면 보관</text>
+              <text x="110" y="154" font-weight="600">구글 캘린더</text>
+              <text x="110" y="172" font-size="11">일정 원본과 동기화</text>
+              <text x="110" y="244" font-weight="600">도서 검색</text>
+              <text x="110" y="262" font-size="11">표지·저자·쪽수</text>
+
+              <text x="440" y="140" font-weight="700" font-size="14">마이라이프 웹앱</text>
+              <text x="440" y="162" font-size="11">폰 홈 화면 · PC 브라우저</text>
+              <text x="440" y="180" font-size="11">화면과 계산은 기기에서 처리</text>
+
+              <text x="770" y="40" font-size="11">Supabase</text>
+              <text x="770" y="79" font-weight="600">로그인</text>
+              <text x="770" y="97" font-size="11">구글 계정 확인</text>
+              <text x="770" y="154" font-weight="600">데이터베이스</text>
+              <text x="770" y="172" font-size="11">모든 기록</text>
+              <text x="770" y="229" font-weight="600">사진 저장소</text>
+              <text x="770" y="247" font-size="11">일기·취미 사진</text>
+
+              <text x="275" y="60" font-size="11">화면 내려받기</text>
+              <text x="275" y="150" font-size="11">일정 보내기·가져오기</text>
+              <text x="275" y="240" font-size="11">제목으로 검색</text>
+              <text x="605" y="75" font-size="11">로그인</text>
+              <text x="605" y="150" font-size="11">기록 읽기·쓰기</text>
+              <text x="605" y="225" font-size="11">압축 후 올리기</text>
+            </g>
+            <g stroke="currentColor" stroke-width="1.2" fill="none">
+              <line x1="200" y1="67" x2="348" y2="67" marker-end="url(#ah)"/>
+              <line x1="348" y1="157" x2="202" y2="157" marker-start="url(#ah)" marker-end="url(#ah)"/>
+              <line x1="350" y1="247" x2="202" y2="247" marker-end="url(#ah)"/>
+              <line x1="530" y1="82" x2="678" y2="82" marker-end="url(#ah)"/>
+              <line x1="532" y1="157" x2="678" y2="157" marker-start="url(#ah)" marker-end="url(#ah)"/>
+              <line x1="530" y1="232" x2="678" y2="232" marker-end="url(#ah)"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <figcaption>가운데 웹앱이 모든 서비스와 직접 통신합니다. 별도의 서버를 두지 않으므로 서버 비용이 없습니다.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>화면 구성</h2>
+    <p class="lead">PC에서는 왼쪽 메뉴에 8개가 모두 보이고, 폰에서는 아래쪽에 홈·경제·기록·계획·더보기 5개 탭이 보입니다.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>메뉴</th><th>들어가는 기능</th></tr></thead>
+        <tbody>
+          <tr><td>홈</td><td>위쪽: 오늘의 할 일, 습관 체크, 일정, 이번 달 지출과 빠른 입력 버튼. 아래쪽: 순자산, 지출, 독서량, 공부 시간, 습관 달성률 통계</td></tr>
+          <tr><td>경제</td><td>수입·지출 가계부, 카테고리별 월 예산, 매달 자동 등록되는 고정 지출, 자산·부채와 순자산 추이, 투자 기록과 수익률<small>투자 평가액은 직접 입력합니다. 시세 자동 조회는 없습니다.</small></td></tr>
+          <tr><td>일기·메모</td><td>하루 한 편 일기(기분 5단계, 잘한 일·아쉬운 일·감사한 일, 자유 글, 사진), 메모·아이디어 보관함</td></tr>
+          <tr><td>독서</td><td>제목 검색으로 책 등록, 읽고 싶은·읽는 중·완독 상태, 쪽수 진도, 별점, 감상문, 인상 깊은 문장</td></tr>
+          <tr><td>공부</td><td>과목, 강의·교재 등록과 진도율, 공부 기간, 날짜별 공부 시간(타이머 또는 직접 입력)</td></tr>
+          <tr><td>취미</td><td>취미별 활동 일지(날짜, 시간, 메모, 사진), 영화·드라마·게임 등 감상 기록(별점, 한 줄 평)</td></tr>
+          <tr><td>건강</td><td>체중과 목표 체중, 운동, 수면 시각, 식단과 물</td></tr>
+          <tr><td>계획</td><td>캘린더(구글 캘린더와 동기화), 할 일, 습관, 장기 목표. 습관과 할 일을 목표에 연결하면 목표 진행률이 자동 계산됩니다.</td></tr>
+          <tr><td>리포트</td><td>주간·월간 요약: 지출, 저축률, 독서량, 공부 시간, 운동 횟수, 수면, 기분, 습관 달성률</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">리포트와 설정은 폰에서 더보기 탭 안에 있습니다. 설정에는 카테고리 관리, 다크 모드, 전체 데이터 내보내기(백업)가 들어갑니다.</p>
+  </section>
+
+  <section>
+    <h2>무료로 쓰는 범위</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>서비스</th><th>무료 한도</th><th>알아둘 점</th></tr></thead>
+        <tbody>
+          <tr><td>GitHub Pages</td><td>월 100GB 전송</td><td>앱 코드가 공개 저장소에 올라갑니다. 기록은 코드에 들어가지 않으므로 공개되지 않습니다.</td></tr>
+          <tr><td>Supabase 데이터베이스</td><td>500MB</td><td>글과 숫자만으로는 수십 년 써도 남습니다. <span class="warn">7일간 접속이 없으면 일시 정지</span>되므로, 매일 자동으로 한 번 접속하는 무료 예약 작업을 함께 만듭니다.</td></tr>
+          <tr><td>Supabase 사진 저장소</td><td>1GB</td><td>사진을 약 200KB로 줄여 올리면 5천 장 정도 들어갑니다. 설정에서 사용량을 보여줍니다.</td></tr>
+          <tr><td>구글 캘린더 연동</td><td>무료</td><td><span class="warn">구글 연결은 약 1시간마다 만료</span>됩니다. 앱이 자동으로 다시 연결하지만, 가끔 구글 버튼을 한 번 더 눌러야 할 수 있습니다.</td></tr>
+          <tr><td>도서 검색</td><td>무료</td><td>검색 결과에 없는 책은 직접 입력할 수 있습니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">한도는 각 서비스의 현재 무료 요금제 기준이며, 서비스 정책에 따라 바뀔 수 있습니다.</p>
+  </section>
+
+  <section>
+    <h2>만드는 순서</h2>
+    <ol>
+      <li><b>뼈대</b> 구글 로그인, 메뉴, 데이터베이스 표 만들기</li>
+      <li><b>기록 화면</b> 8개 영역의 기본 입력과 목록</li>
+      <li><b>홈과 리포트</b> 오늘 요약, 빠른 입력, 통계 그래프</li>
+      <li><b>편의 기능</b> 사진 첨부, 책 검색, 고정 지출 자동 등록, 공부 타이머</li>
+      <li><b>구글 캘린더 동기화</b></li>
+      <li><b>배포</b> GitHub Pages에 올리고 폰 홈 화면에 설치</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>직접 해주셔야 하는 일</h2>
+    <p class="lead">계정이 필요한 세 가지는 대신 할 수 없습니다. 차례가 오면 화면별로 안내합니다.</p>
+    <ul>
+      <li>Supabase 무료 가입 후 프로젝트 만들기 (약 5분)</li>
+      <li>구글 클라우드에서 로그인·캘린더 사용 설정 (약 10분)</li>
+      <li>GitHub 로그인 확인 (약 2분)</li>
+    </ul>
+  </section>
+</main>
